@@ -1,0 +1,30 @@
+/*  
+ *  Document   : bid18xxStart
+ *  Author     : Rich Price
+ *  Description: CSS Document for bid18xxStart.php page.
+ *
+ * Copyright (c) 2020 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
+ */
+
+#did {
+  padding: 5px; 
+  padding-left: 30px;
+  display: none;
+}
+
+.fn1 {
+  width: 150px;
+}
+
+.fn2 {
+  width: 250px;
+}
+
+.pwbutton {
+  margin: 0px 30px;
+}
+
+.error {
+  color: red !important;
+}

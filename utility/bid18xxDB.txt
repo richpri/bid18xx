@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS bid_table;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE bid_table (
+  bid_id int(11) unsigned NOT NULL AUTO_INCREMENT,
+  bid text,
+  activity_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (bid_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

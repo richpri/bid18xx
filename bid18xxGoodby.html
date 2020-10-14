@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<!--
+The bid18xxGoodby.html page is the exit page for bid18xx and 
+contains a goodby message and nothing else. 
+
+Copyright (c) 2020 Richard E. Price under the The MIT License.
+A copy of this license can be found in the LICENSE.text file.
+
+-->
+  <head>
+    <meta charset="utf-8" />
+    <title>BID18xx - Player Order Bid Tool For 18xx Games</title>
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="style/bid18xxCom.css">
+    <link rel="stylesheet" href="style/bid18xxGoodby.css">
+    <script type="text/javascript" src="scripts/jquery.js">
+    </script> 
+    <script>
+      $(function() {
+        var url_string = window.location.href; //window.location.href
+        var url = new URL(url_string);
+        var type = url.searchParams.get("msgtype");
+        if (type === '1') {
+          $("#content").show();
+        }
+      });
+    </script>
+  </head>
+  <body>
+    
+    <div id="topofpage">
+      <div id="logo">
+        <img src="images/logo.png" alt="Logo"/> 
+      </div>
+      <div id="heading">
+        <h1>BID18xx</h1>
+        <h1>The Player Order Bid Tool For 18xx Games</h1>
+      </div>
+    </div>
+    
+    <div id="restofpage"> 
+      <div id="content">    
+        <p style="font-size: 130%">
+          <b>This BID18xx startup session has ended.</b>
+        </p>
+        <p>The rest of the bid process will be driven by emails.<br>
+          Keep an eye on your in box for your bid request email. 
+        </p>
+      </div>
+      <div id="content2">
+        <p style="font-size: 130%">
+          <b>Thank you for using BID18xx.</b>
+        </p>
+        <p>
+          Goodbye for now and always remember "Have Fun!"         
+        </p>
+      </div>
+    </div> 
+  </body>
+</html>
