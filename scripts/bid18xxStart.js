@@ -246,6 +246,8 @@ function startupEmailsResult(response) {
       $('.fn2').each(function(i){
         $(this).val("");
       });
+      // Hide Error messages
+      $('.error').hide();
       // Hide "Process Form" button.
       $("#button1").hide();
     }

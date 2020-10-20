@@ -68,7 +68,7 @@ the player order bidding process for this game.</p>
 on the page which will then be displayed in your broser.</p>
 <p style='font-weight:bold'>
 <a href="$linkaddr/bid18xxSubmit.php?urlkey=$urlkey">
-$linkaddr/bid18xxSubmit.php?urlkey=$urlkey"</a></p>
+$linkaddr/bid18xxSubmit.php?urlkey=$urlkey</a></p>
 <p>Have fun!</p>
 XEOD;
 sendEmail($address, $subject, $body);

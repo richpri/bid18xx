@@ -1,0 +1,70 @@
+/*  
+ *  Document   : bid18xxSubmit
+ *  Author     : Rich Price
+ *  Description: CSS Document for bid18xxSubmit.php page.
+ *
+ * Copyright (c) 2020 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
+ */
+
+#bidrpt {
+  padding: 5px; 
+  padding-left: 30px;
+  text-align: center;
+}
+
+#playerOrder {
+  padding: 5px; 
+  padding-left: 30px;
+  text-align: center;
+  display: none;
+}
+
+#bidform {
+  width: 4.6in;
+  border: 1px solid black; 
+  padding: 5px; 
+  padding-left: 20px;
+  margin-top: 20px;
+  margin-left: 1.4in;
+  text-align: center;
+  display: none;
+}
+
+#collform {
+  width: 4.6in;
+  border: 1px solid black; 
+  padding: 5px; 
+  padding-left: 20px;
+  margin-top: 20px;
+  margin-left: 1.4in;
+  text-align: center;
+  display: none;
+}
+
+.allforms {
+  display: none;
+}
+
+table, th, td {
+  padding: 10px;
+  border: 1px solid black; 
+  border-collapse: collapse;
+}  
+
+.pwbutton {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#button2 {
+  margin-left: 50px;
+}
+
+#button5 {
+  margin-left: 50px;
+}
+
+.error {
+  color: red !important;
+}
