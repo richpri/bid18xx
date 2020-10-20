@@ -11,17 +11,17 @@
  */
 
 /*
- * The getRecResult function is the call back function for 
- * the ajax calls to getRec.php. It  sets up the   
+ * The getBidResult function is the call back function for 
+ * the ajax calls to getBid.php. It  sets up the   
  * bid18xxSubmit page.
  *  
- * Output from getRec.php is ajson encoded array.   
+ * Output from getBid.php is ajson encoded array.   
  * The "return" value will be either "success" or "fail". If 
  * it is "fail" then it will be the only item in the array.
  * If the "return" value is "success", then the rest of the
  * array will be the json string from the specified table row.
  */
-function getRecResult(result1) {
+function getBidResult(result1) {
   BID18.bid = JSON.parse(result1);
   BID18.updtCount = BID18.bid.updtCount;
   var result = BID18.bid.return;
@@ -48,8 +48,8 @@ function getRecResult(result1) {
 
   var urlkey = BID18.bid.players[BID18.input.playerid-1].urlKey;
   if (BID18.input.urlkey !== urlkey) {
-    $('#did').append('<br><br>The <b>urlkey</b> on this link is invalid.');
-    $('#did').append('<br>This should not occur.');
+    $('#bid').html('<br><br>The <b>urlkey</b> on this link is invalid.');
+    $('#bid').append('<br>This should not occur.');
     $('.allforms').hide();
     $('#canform').show();
     return;
@@ -62,9 +62,90 @@ function getRecResult(result1) {
   }
   
 // Display player status.
- 
+  var playerHTML = '<br><table id="rptlist" >';
+  playerHTML+= '<caption><b>Status Report</b></caption>';
+  playerHTML+= '<tr style="background-color: #ddffdd"><th>Player<br>Name</th>';
+  playerHTML+= '<th>Player\'s<br>Status</th></tr>';
+  $.each(BID18.bid.players,function(index,listInfo) {
+    playerHTML+= '<tr> <td>' + listInfo.name + '</td><td>';
+    playerHTML+= listInfo.status + '</td></tr>';
+  }); // end of each
+  playerHTML+= '</table>';
+  $("#rptlist").remove();
+  $('#bidrpt').append(playerHTML);
+  
 // Setup actual bid display.
+  $('.allforms').hide();
+  $('#bidform').show();
+}
 
+/*
+ * The processBid function uses the entered bid   
+ * to update the current player. It then checks
+ * if all players have submitted a bid and calls  
+ * the updtBid.php function to update the database.
+ */
+function processBid() {
+  var bidin = $("input[name='bid']:checked").val(); // bid that was selected.
+  var playerIndex = BID18.input.playerid - 1;
+  BID18.bid.players[playerIndex].bid = bidin;
+  BID18.bid.players[playerIndex].status = 'Done';
+  // Check if all players have submitted a bid.
+  var allDone = 'Yes';
+  $.each(BID18.bid.players,function(index,playerInfo) {
+    if (playerInfo.status === "Pending") {
+      allDone = 'No';
+    }
+  }); // end of each
+  if (allDone === "Yes") {
+    BID18.bid.status = "Done";
+  }
+  var dataString = JSON.stringify(BID18.bid);
+  var cString = "bidid=" + BID18.input.bidid;
+  cString += "&bid=" + dataString;
+  $.post("php/updtBid.php", cString, updateBidResult);
+};
+
+/* 
+ * Function updtBidResult is the success callback function  
+ * for the ajax updtBid.php call made by the processBid()
+ * function. It checks for a failure or a collision
+ * and then it checks if all bids are done and if not it
+ * sets up the response screen for this bid.
+ * 
+ * Output from updateBid is an echo return status of 
+ * "success", "collision" or "fail".
+ */
+function updateBidResult(result) {
+  if (result === 'fail') {
+    var errmsg = 'bid18xxSubmit: updtBid.php failed.\n';
+    errmsg += 'Please contact the BID18xx webmaster.\n';
+    errmsg += BID18.adminName + '\n';
+    errmsg += BID18.adminEmail;
+    alert(errmsg);
+    return;
+  }
+  if (result === 'collision') { // Back out and perhaps try again
+    $('.allforms').hide();
+    $('#collform').show();
+    return;
+  }
+  if (result !== 'success') {
+    // Something is definitly wrong in the code.
+    var nerrmsg = 'bid18xxSubmit: Invalid return code from updtBid.php.\n';
+    nerrmsg += 'Please contact the BID18xx webmaster.\n';
+    nerrmsg += BID18.adminName + '\n';
+    nerrmsg += BID18.adminEmail;
+    alert(nerrmsg);
+    return;
+  }
+
+// Check if all bids are done.
+  if (BID18.bid.status === "Done") {
+    bidDone();
+  } else {
+    window.location.assign("bid18xxGoodby.html?msgtype=2");
+  }
 }
 
 /*
@@ -77,12 +158,12 @@ function getRecResult(result1) {
  */
 function bidDone() {
   var rptHTML = '<br><table id="rptlist" >';
-  rptHTML+= '<caption><b>The Final Bid Status</b></caption>';
+  rptHTML+= '<caption><b>Final Bid Status</b></caption>';
   rptHTML+= '<tr style="background-color: #ddffdd"><th>Player<br>Name</th>';
   rptHTML+= '<th>Player\'s<br>Bid</th></tr>';
   $.each(BID18.bid.players,function(index,listInfo) {
     rptHTML+= '<tr> <td>' + listInfo.name + '</td><td>';
-    rptHTML+= listInfo.bid + '</td><td></tr>';
+    rptHTML+= listInfo.bid + '</td></tr>';
   }); // end of each
   rptHTML+= '</table>';
   $("#rptlist").remove();
@@ -96,29 +177,29 @@ function bidDone() {
 /*
  * The sortPlayers function deletes any previously displayed  
  * playerOrder table. It then appends the sorted player order 
- * table to the playerOrder div. 
+ * table to the player order div. 
  */
 function sortPlayers() {
   var orderHTML = '<br><table id="orderlist" >';
-  orderHTML+= '<caption><b>The Final Player Order</b></caption>';
+  orderHTML+= '<caption><b>Player Order</b></caption>';
   orderHTML+= '<tr style="background-color: #ddffdd">';
   orderHTML+= '<th>Player<br>Name</th></tr>';
   $.each(BID18.bid.players,function(index,listInfo) {
-    if (listInfo.bid === 10) {
+    if (listInfo.bid === "10") {
       orderHTML += '<tr> <td>' + listInfo.name + '</td><td></tr>';
     }
   }); // end of each 10
   $.each(BID18.bid.players,function(index,listInfo) {
-    if (listInfo.bid === 5) {
+    if (listInfo.bid === "5") {
       orderHTML += '<tr> <td>' + listInfo.name + '</td><td></tr>';
     }
   }); // end of each 5
   $.each(BID18.bid.players,function(index,listInfo) {
-    if (listInfo.bid === 0) {
+    if (listInfo.bid === "0") {
       orderHTML += '<tr> <td>' + listInfo.name + '</td><td></tr>';
     }
   }); // end of each 0
   orderHTML+= '</table>';
   $("#orderlist").remove();
-  $('#playerOrder').append(orderHTML);
+  $("#playerorder").append(orderHTML);
 }

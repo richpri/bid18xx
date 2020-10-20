@@ -29,14 +29,7 @@ if ($link === false) {
   exit;
 }
 
-//Function to sanitize values received from the form. 
-//Prevents SQL injection
-function clean($conn, $str1) {
-  $str = trim($str1);
-  return mysqli_real_escape_string($conn, $str);
-}
-
-$bidid = clean($link, $_REQUEST['bidid']);
+$bidid = filter_input(INPUT_POST, 'bidid',FILTER_SANITIZE_NUMBER_INT);
 $bidinput = json_decode($_REQUEST['bid'], true);
 
 // Start transaction.

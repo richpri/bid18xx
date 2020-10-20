@@ -46,16 +46,20 @@ $playerid  = intval(substr($urlkey,4,1));
         BID18.input.playerid = parseInt(<?php echo "$playerid"; ?>);
         $('#bid').append(BID18.input.bidid).append('.');
         var cString = "bidid=" + BID18.input.bidid;
-        $.post("php/getRec.php", cString, getRecResult);
+        $.post("php/getBid.php", cString, getBidResult);
        
         $("#button1").on("click",function(){
-          processSelection();
+          processBid();
           return false;          
         }); // end button1 click
         $("#button2").on("click",function(){
           window.location.assign("bid18xxGoodby.html?msgtype=0");
           return false;          
-        }); // end button2 click  
+        }); // end button2 click 
+        $("#button3").on("click",function(){
+          window.location.assign("bid18xxGoodby.html?msgtype=0");
+          return false;          
+        }); // end button3 click 
         $("#button4").on("click",function(){
           var recallnext = 'bid18xxSubmit.php?bidid=';
           recallnext += BID18.input.bidid + '&playerid=';
@@ -93,7 +97,7 @@ $playerid  = intval(substr($urlkey,4,1));
         </div>
         <div id="bidrpt">
         </div>
-        <div id="playerOrder">
+        <div id="playerorder">
         </div>
         <div id="bidform" class="allforms">
           Be sure to select your bid before you press enter!<br>
@@ -115,6 +119,12 @@ $playerid  = intval(substr($urlkey,4,1));
                    id="button2" value="Cancel" >
           </form>
         </div>
+        <div id="canform" class="allforms">
+          <form name="form2" action="" >
+            <input type="button" name="button3" class="pwbutton" 
+                   id="button3" value="Cancel" >
+          </form>
+        </div>        
         <div id="collform" class="allforms"><p id="collp">
           Your update collided with another player's update.<br>
           Try again. If you get this message repeatedly then 
