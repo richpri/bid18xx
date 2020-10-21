@@ -44,8 +44,10 @@ function getBidResult(result1) {
   }
   
   var thisPlayer = BID18.bid.players[BID18.input.playerid-1].name
-  $('#pid').append( thisPlayer).append('.');
-
+  $('#pid').append( thisPlayer);
+  $('#pid').append('.<br><br>This bid request is for the game named '); 
+  $('#pid').append(BID18.bid.gameName).append('.');
+  
   var urlkey = BID18.bid.players[BID18.input.playerid-1].urlKey;
   if (BID18.input.urlkey !== urlkey) {
     $('#bid').html('<br><br>The <b>urlkey</b> on this link is invalid.');
@@ -143,6 +145,20 @@ function updateBidResult(result) {
 // Check if all bids are done.
   if (BID18.bid.status === "Done") {
     bidDone();
+// send result emails 
+    $("#bid").append("<br>Bid result emails will now be sent to all players.");
+    BID18.mailError = false;
+    BID18.firstReply = true;
+    var cString, pl, pLine;
+    for (i=0; i<BID18.playercount; i++) {
+      pl = i+1;
+      cString = 'bidid=' + BID18.bidID;
+      cString += '&playerid=' + pl;
+      $.post("php/emailBidResult.php", cString, emailResultCallback);
+      pLine = "<br>Prepairing bid result email for player ";
+      pLine += BID18.bid.players[i].name; 
+      $("#bid").append(pLine);
+    }
   } else {
     window.location.assign("bid18xxGoodby.html?msgtype=2");
   }
@@ -186,20 +202,58 @@ function sortPlayers() {
   orderHTML+= '<th>Player<br>Name</th></tr>';
   $.each(BID18.bid.players,function(index,listInfo) {
     if (listInfo.bid === "10") {
-      orderHTML += '<tr> <td>' + listInfo.name + '</td><td></tr>';
+      orderHTML += '<tr> <td>' + listInfo.name + '</td></tr>';
     }
   }); // end of each 10
   $.each(BID18.bid.players,function(index,listInfo) {
     if (listInfo.bid === "5") {
-      orderHTML += '<tr> <td>' + listInfo.name + '</td><td></tr>';
+      orderHTML += '<tr> <td>' + listInfo.name + '</td></tr>';
     }
   }); // end of each 5
   $.each(BID18.bid.players,function(index,listInfo) {
     if (listInfo.bid === "0") {
-      orderHTML += '<tr> <td>' + listInfo.name + '</td><td></tr>';
+      orderHTML += '<tr> <td>' + listInfo.name + '</td></tr>';
     }
   }); // end of each 0
   orderHTML+= '</table>';
   $("#orderlist").remove();
-  $("#playerorder").append(orderHTML);
+  $("#playerorder").append(orderHTML).show();
+}
+
+/* 
+ * Function emailResultCallback is the call back function for
+ * the ajax calls to emailBidResult.php. It will have to
+ * process returns from multiple emails for the same call.
+ * It only needs to check for errors and it only needs to  
+ * report the first error. 
+ *  
+ * Output from emailBidResult.php 
+ * is an echo return status:
+ *   "success" - Email sent.
+ *   "fail"    - Uexpected error - This email not sent.
+ */
+function emailResultCallback(response) {
+  var pLine;
+  if (response === 'fail') {
+    if (BID18.mailError === false) {
+      var errmsg = 'Sending an email to a player failed.\n';
+      errmsg += 'Please contact the BID18xx webmaster.\n';
+      errmsg += BID18.adminName + '\n';
+      errmsg += BID18.adminEmail;
+      alert(errmsg);
+      BID18.mailError = true;
+    }
+  }
+  else if (response !== 'success') {
+    // Something is definitly wrong in the code.
+    var nerrmsg = 'Invalid return code from emailPlayer.php.\n';
+    nerrmsg += 'Please contact the BID18xx webmaster.\n';
+    nerrmsg += BID18.adminName + '\n';
+    nerrmsg += BID18.adminEmail;
+    alert(nerrmsg);
+  }
+  else {
+    pLine = "<br>A bid request email has been sent."; 
+    $("#bid").append(pLine);
+  }
 }
