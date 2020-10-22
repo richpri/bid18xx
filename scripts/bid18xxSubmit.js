@@ -150,9 +150,9 @@ function updateBidResult(result) {
     BID18.mailError = false;
     BID18.firstReply = true;
     var cString, pl, pLine;
-    for (i=0; i<BID18.playercount; i++) {
+    for (i=0; i<BID18.bid.numbPlayers; i++) {
       pl = i+1;
-      cString = 'bidid=' + BID18.bidID;
+      cString = 'bidid=' + BID18.input.bidid;
       cString += '&playerid=' + pl;
       $.post("php/emailBidResult.php", cString, emailResultCallback);
       pLine = "<br>Prepairing bid result email for player ";
