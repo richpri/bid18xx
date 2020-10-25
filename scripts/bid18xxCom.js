@@ -11,7 +11,7 @@
  * them from global variables in other packages. 
  */
 var BID18 = {}; // The master variable.
-BID18.version = "0.0.1";
+BID18.version = "1.0.0";
 
 /* Function setPage() adjusts the height and width
  * of rightofpage and the height of lefttofpage.

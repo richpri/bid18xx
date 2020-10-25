@@ -23,6 +23,10 @@ A copy of this license can be found in the LICENSE.text file.
     <script>
       $(function() {
         $('.error').hide(); 
+        var vernumb = "This is version " + BID18.version + " of BID18xx.<br>";
+        vernumb += "<a href='https://wiki.board18.org/w/BID18xx_Player%27s_Guide'>";
+        vernumb += "This is a link to the BID18xx Player's Guide.</a>";
+        $('#vers').html(vernumb);
         $("#button1").on("click",function(){
           var pnumb = $("#players").val();
           var start = "bid18xxStart.php?players=";
@@ -49,11 +53,14 @@ A copy of this license can be found in the LICENSE.text file.
       <div id="content" style="padding-right: 20px">    
         <p style="font-size: 130%"><b>Welcome to BID18xx.</b>
         </p>
+        <p id="vers">
+          This is version x  of BID18xx.
+        </p>
         <p>BID18xx is a utility for certain play by email 18xx games.  
           This utility moderates the hidden bids that are used to 
           determine player order in games such as 18FL and 18West.
           It was written to be used with BOARD18 but it should be 
-          usable with any Play By Email game system that supports 18xx games.         
+          usable with any Play By Email game system that supports 18xx games.
         </p>
         <p><b>BID18xx uses email to poll the players for their bids.</b>
         </p>
@@ -72,8 +79,8 @@ A copy of this license can be found in the LICENSE.text file.
           After providing the information on
           the next page, please press "enter". This will cause 
           BID18xx to validate the entries and create a database 
-          table entry for this bid. It will then send an email to each 
-          player to request that they enter a bid.
+          table entry for this bid session. It will then send an email  
+          to each player to request that they enter a bid.
         </p>
       </div>
       <div id="forms">

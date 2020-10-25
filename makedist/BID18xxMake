@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# Copyright (c) 2020 Richard E. Price under the The MIT License.
+# A copy of this license can be found in the LICENSE.text file.
+#
+source $(dirname $0)/cnfgxx.sh
+# Create a new distribution of BID18xx
+cd $BID18xxRoot
+rm -f ~/bid18xx-$versionNo.zip
+rm -f -r ~/bid18xx-$versionNo
+mkdir ~/bid18xx-$versionNo
+mkdir ~/bid18xx-$versionNo/webroot
+mkdir ~/bid18xx-$versionNo/webroot/images
+mkdir ~/bid18xx-$versionNo/webroot/php 
+mkdir ~/bid18xx-$versionNo/webroot/scripts 
+mkdir ~/bid18xx-$versionNo/webroot/style
+mkdir ~/bid18xx-$versionNo/utility
+install -p -t ~/bid18xx-$versionNo documentation/README.txt
+install -p -t ~/bid18xx-$versionNo documentation/LICENSE.txt
+install -p -t ~/bid18xx-$versionNo documentation/CREDITS.txt
+# install -p -t ~/bid18xx-$versionNo Documentation/INSTALL.txt
+# install -p -t ~/bid18xx-$versionNo Documentation/ReleaseNotes.txt
+install -p -t ~/bid18xx-$versionNo/webroot *.html *.php favicon.ico
+# rm ~/bid18xx-$versionNo/webroot/phpinfo.php
+install -p -t ~/bid18xx-$versionNo/webroot/php php/*.*
+install -p -t ~/bid18xx-$versionNo/webroot/scripts scripts/*.*
+install -p -t ~/bid18xx-$versionNo/webroot/style style/*.*
+install -p -t ~/bid18xx-$versionNo/webroot/images images/*.*
+rm ~/bid18xx-$versionNo/webroot/php/config.php
+rm ~/bid18xx-$versionNo/webroot/php/configMail.php
+rm ~/bid18xx-$versionNo/webroot/scripts/config.js
+rm ~/bid18xx-$versionNo/webroot/utility/cntrlxx.sh
+install -p -t ~/bid18xx-$versionNo/utility utility/*
+cd ~
+zip -r ~/bid18xx-$versionNo.zip bid18xx-$versionNo
+rm -f -r ~/bid18xx-$versionNo
