@@ -11,7 +11,7 @@
  * Copyright (c) 2020 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
-define('DB_HOST', 'your.db.server.org');
+define('DB_HOST', 'localhost');
 define('DB_DATABASE', 'bid18xx');
 define('DB_USER', 'bid18xx');
 define('DB_PASSWORD', 'somepassword');

@@ -5,7 +5,7 @@
  * bid18xxStart. This page accepts and verifies the player's 
  * bid and then updates the database. It then checks to see
  * if all players have submitted their bids. If they have then
- * it . . . . 
+ * it reports the bid results to each player. 
  * 
  * This page's URL should contain a urlkey parameter. This is
  * a 12 character pseudo random string that begins with the

@@ -2,7 +2,7 @@
 
 /* 
  * getBid.php is the server side code for the 
- * AJAX getRec call. It returns the specified table 
+ * AJAX getBid call. It returns the specified table 
  * row from the bid_table in the bid18xx database.
  * 
  * Input consists the "bidid" for the table row to
